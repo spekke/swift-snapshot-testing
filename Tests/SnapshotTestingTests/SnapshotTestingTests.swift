@@ -724,7 +724,7 @@ final class SnapshotTestingTests: XCTestCase {
     
     let viewController = MyViewController()
     assertSnapshot(matching: viewController, as: .image(configure: {
-      viewController.buttonTapped()
+      $0.buttonTapped()
     }))
     #endif
   }
