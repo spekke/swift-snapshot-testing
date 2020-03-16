@@ -1,7 +1,7 @@
 #if os(iOS) || os(tvOS)
 import UIKit
 
-extension Snapshotting where Value == UIViewController, Format == UIImage {
+extension Snapshotting where Value : UIViewController, Format == UIImage {
   /// A snapshot strategy for comparing view controller views based on pixel equality.
   public static var image: Snapshotting {
     return .image()
@@ -19,7 +19,7 @@ extension Snapshotting where Value == UIViewController, Format == UIImage {
     precision: Float = 1,
     size: CGSize? = nil,
     traits: UITraitCollection = .init(),
-    configure: (() -> Void)? = nil
+    configure: ((Value) -> Void)? = nil
     )
     -> Snapshotting {
 
@@ -47,7 +47,7 @@ extension Snapshotting where Value == UIViewController, Format == UIImage {
     precision: Float = 1,
     size: CGSize? = nil,
     traits: UITraitCollection = .init(),
-    configure: (() -> Void)? = nil
+    configure: ((Value) -> Void)? = nil
     )
     -> Snapshotting {
 
