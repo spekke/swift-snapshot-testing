@@ -699,6 +699,35 @@ final class SnapshotTestingTests: XCTestCase {
     assertSnapshot(matching: view, as: .recursiveDescription)
     #endif
   }
+  
+  func testUIViewControllerImage() {
+    #if os(iOS)
+    class MyViewController : UIViewController {
+      
+      let button: UIButton = {
+        let button = UIButton()
+        button.setTitle("Click me", for: .normal)
+        button.sizeToFit()
+        return button
+      }()
+      
+      override func viewDidLoad() {
+        super.viewDidLoad()
+        view.addSubview(button)
+        button.frame = CGRect(x: 20, y: 20, width: 200, height: 40)
+      }
+      
+      func buttonTapped() {
+        view.backgroundColor = .red
+      }
+    }
+    
+    let viewController = MyViewController()
+    assertSnapshot(matching: viewController, as: .image(configure: {
+      viewController.buttonTapped()
+    }))
+    #endif
+  }
 
   func testViewControllerHierarchy() {
     #if os(iOS)

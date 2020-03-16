@@ -18,7 +18,8 @@ extension Snapshotting where Value == UIView, Format == UIImage {
     drawHierarchyInKeyWindow: Bool = false,
     precision: Float = 1,
     size: CGSize? = nil,
-    traits: UITraitCollection = .init()
+    traits: UITraitCollection = .init(),
+    configure: (() -> Void)? = nil
     )
     -> Snapshotting {
 
@@ -28,7 +29,8 @@ extension Snapshotting where Value == UIView, Format == UIImage {
           drawHierarchyInKeyWindow: drawHierarchyInKeyWindow,
           traits: traits,
           view: view,
-          viewController: .init()
+          viewController: .init(),
+          configure: configure
         )
       }
   }

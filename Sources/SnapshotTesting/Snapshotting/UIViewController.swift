@@ -18,7 +18,8 @@ extension Snapshotting where Value == UIViewController, Format == UIImage {
     on config: ViewImageConfig,
     precision: Float = 1,
     size: CGSize? = nil,
-    traits: UITraitCollection = .init()
+    traits: UITraitCollection = .init(),
+    configure: (() -> Void)? = nil
     )
     -> Snapshotting {
 
@@ -28,7 +29,8 @@ extension Snapshotting where Value == UIViewController, Format == UIImage {
           drawHierarchyInKeyWindow: false,
           traits: traits,
           view: viewController.view,
-          viewController: viewController
+          viewController: viewController,
+          configure: configure
         )
       }
   }
@@ -44,7 +46,8 @@ extension Snapshotting where Value == UIViewController, Format == UIImage {
     drawHierarchyInKeyWindow: Bool = false,
     precision: Float = 1,
     size: CGSize? = nil,
-    traits: UITraitCollection = .init()
+    traits: UITraitCollection = .init(),
+    configure: (() -> Void)? = nil
     )
     -> Snapshotting {
 
@@ -54,7 +57,8 @@ extension Snapshotting where Value == UIViewController, Format == UIImage {
           drawHierarchyInKeyWindow: drawHierarchyInKeyWindow,
           traits: .init(),
           view: viewController.view,
-          viewController: viewController
+          viewController: viewController,
+          configure: configure
         )
       }
   }
