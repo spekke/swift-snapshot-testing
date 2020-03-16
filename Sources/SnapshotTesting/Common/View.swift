@@ -688,13 +688,13 @@ func prepareView(
   }
 }
 
-func snapshotView(
+func snapshotView<T>(
   config: ViewImageConfig,
   drawHierarchyInKeyWindow: Bool,
   traits: UITraitCollection,
   view: UIView,
   viewController: UIViewController,
-  configure: (() -> Void)?
+  configure: ((T) -> Void)?
   )
   -> Async<UIImage> {
     let initialFrame = view.frame
@@ -706,7 +706,13 @@ func snapshotView(
       viewController: viewController
     )
     
-    configure?()
+    if let t = view as? T {
+      configure?(t)
+    }
+    else if let t = viewController as? T {
+      configure?(t)
+    }
+    
     
     // NB: Avoid safe area influence.
     if config.safeArea == .zero { view.frame.origin = .init(x: offscreen, y: offscreen) }
