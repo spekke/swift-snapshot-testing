@@ -789,6 +789,27 @@ final class SnapshotTestingTests: XCTestCase {
     #endif
   }
   
+  // Unable to snapshot window since no test host application
+//  func testUIWindow() {
+//    let rootViewController = UIViewController()
+//    rootViewController.view.backgroundColor = .red
+//
+//    let window = UIWindow()
+//    window.makeKeyAndVisible()
+//    window.rootViewController = rootViewController
+//
+//    let viewController = UIViewController()
+//    viewController.view.backgroundColor = .green
+//
+//    let expectation = self.expectation(description: #function)
+//    rootViewController.present(viewController, animated: false, completion: {
+//      expectation.fulfill()
+//    })
+//
+//    wait(for: [expectation], timeout: 1)
+//    assertSnapshot(matching: window, as: .image(drawHierarchyInKeyWindow: true))
+//  }
+  
   func testUIViewControllerImage() {
     #if os(iOS)
     class MyViewController : UIViewController {
