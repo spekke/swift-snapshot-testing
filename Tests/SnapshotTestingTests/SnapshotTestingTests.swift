@@ -817,6 +817,26 @@ final class SnapshotTestingTests: XCTestCase {
     }))
     #endif
   }
+  
+  func testUIViewControllerMemoryCleanup() {
+    
+    class MyViewController: UIViewController {
+      override func loadView() {
+        let label = UILabel()
+        label.text = "Memory cleanup"
+        self.view = label
+      }
+    }
+    
+    var viewController: UIViewController! = MyViewController()
+    
+    assertSnapshot(matching: viewController, as: .image)
+    
+    weak var weakSut = viewController
+    viewController = nil
+    
+    XCTAssertNil(weakSut)
+  }
 
   func testUIViewControllerLifeCycle() {
     #if os(iOS)
