@@ -685,13 +685,15 @@ func prepareView(
   ) -> () -> Void {
   let size = config.size ?? viewController.view.frame.size
   view.frame.size = size
-  if view != viewController.view {
+  if !(view is UIWindow) && view != viewController.view {
     viewController.view.bounds = view.bounds
     viewController.view.addSubview(view)
   }
   let traits = UITraitCollection(traitsFrom: [config.traits, traits])
   let window: UIWindow
-  if drawHierarchyInKeyWindow {
+  if let windowFromView = view as? UIWindow {
+    window = windowFromView
+  } else if drawHierarchyInKeyWindow {
     guard let keyWindow = getKeyWindow() else {
       fatalError("'drawHierarchyInKeyWindow' requires tests to be run in a host application")
     }
@@ -795,13 +797,14 @@ private func add(traits: UITraitCollection, viewController: UIViewController, to
       ])
     }
     rootViewController.addChild(viewController)
+    
+    rootViewController.setOverrideTraitCollection(traits, forChild: viewController)
+    viewController.didMove(toParent: rootViewController)
+    
+    window.rootViewController = rootViewController
   } else {
     rootViewController = viewController
   }
-  rootViewController.setOverrideTraitCollection(traits, forChild: viewController)
-  viewController.didMove(toParent: rootViewController)
-
-  window.rootViewController = rootViewController
 
   rootViewController.beginAppearanceTransition(true, animated: false)
   rootViewController.endAppearanceTransition()
@@ -815,7 +818,9 @@ private func add(traits: UITraitCollection, viewController: UIViewController, to
   return {
     rootViewController.beginAppearanceTransition(false, animated: false)
     rootViewController.endAppearanceTransition()
-    window.rootViewController = nil
+    if viewController != window.rootViewController {
+      window.rootViewController = nil
+    }
   }
 }
 

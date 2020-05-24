@@ -24,12 +24,18 @@ extension Snapshotting where Value == UIView, Format == UIImage {
     -> Snapshotting {
 
       return SimplySnapshotting.image(precision: precision, scale: traits.displayScale).asyncPullback { view in
-        snapshotView(
+        
+        var viewController: UIViewController?
+        if let window = view as? UIWindow {
+          viewController = window.rootViewController
+        }
+        
+        return snapshotView(
           config: .init(safeArea: .zero, size: size ?? view.frame.size, traits: .init()),
           drawHierarchyInKeyWindow: drawHierarchyInKeyWindow,
           traits: traits,
           view: view,
-          viewController: .init(),
+          viewController: viewController ?? .init(),
           configure: configure
         )
       }
