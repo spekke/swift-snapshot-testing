@@ -35,7 +35,7 @@ When an assertion first runs, a snapshot is automatically recorded to disk and t
 >
 > Re-run "testMyViewController" to test against the newly-recorded snapshot.
 
-Repeat test runs will load this reference and compare it with the runtime value. If they don't match, the test will fail and describe the difference.
+Repeat test runs will load this reference and compare it with the runtime value. If they don't match, the test will fail and describe the difference. Failures can be inspected from Xcode's Report Navigator or by inspecting the file URLs of the failure.
 
 You can record a new reference by setting the `record` mode to `true` on the assertion or globally.
 
@@ -130,12 +130,12 @@ If your data can be represented as an image, text, or data, you can write a snap
 
 ### Xcode 11
 
-> ⚠️ Warning: By default, Xcode will try to add the SnapshotTesting package to your project's targets. Please _uncheck_ SnapshotTesting in the final step of adding a Swift package to your target, as documented below.
+> ⚠️ Warning: By default, Xcode will try to add the SnapshotTesting package to your project's main application/framework target. Please ensure that SnapshotTesting is added to a _test_ target instead, as documented in the last step, below.
 
  1. From the **File** menu, navigate through **Swift Packages** and select **Add Package Dependency…**.
- 2. Enter package respository URL: `https://github.com/pointfreeco/swift-snapshot-testing.git`
+ 2. Enter package repository URL: `https://github.com/pointfreeco/swift-snapshot-testing.git`
  3. Confirm the version and let Xcode resolve the package
- 4. On the final dialog, _uncheck_ any box that adds the SnapshotTesting package to any target
+ 4. On the final dialog, update SnapshotTesting's **Add to Target** column to a test target that will contain snapshot tests (if you have more than one test target, you can later add SnapshotTesting to them by manually linking the library in its build phase)
 
 ### Swift Package Manager
 
@@ -217,7 +217,7 @@ Have you written your own SnapshotTesting plug-in? [Add it here](https://github.
 
 SnapshotTesting was designed with [witness-oriented programming](https://www.pointfree.co/episodes/ep39-witness-oriented-library-design).
 
-This concept (and more) are explored thoroughly in a series of episodes on [Point-Free](https://www.pointfree.co), a video series exploring functional programming and Swift hosted by [Brandon Williams](https://github.com/mbrandonw) and [Stephen Celis](https://github.com/stephencelis).
+This concept (and more) are explored thoroughly in a series of episodes on [Point-Free](https://www.pointfree.co), a video series exploring functional programming and Swift hosted by [Brandon Williams](https://twitter.com/mbrandonw) and [Stephen Celis](https://twitter.com/stephencelis).
 
 Witness-oriented programming and the design of this library was explored in the following [Point-Free](https://www.pointfree.co) episodes:
 
