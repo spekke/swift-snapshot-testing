@@ -1,8 +1,6 @@
-
-import Foundation
 #if canImport(SwiftUI)
+import Foundation
 import SwiftUI
-#endif
 
 /// The size constraint for a snapshot (similar to `PreviewLayout`).
 public enum SwiftUISnapshotLayout {
@@ -54,7 +52,7 @@ extension Snapshotting where Value: SwiftUI.View, Format == UIImage {
         config = .init(safeArea: .zero, size: size, traits: traits)
       }
 
-      return SimplySnapshotting.image(precision: precision).asyncPullback { view in
+      return SimplySnapshotting.image(precision: precision, scale: traits.displayScale).asyncPullback { view in
         var config = config
 
         let controller: UIViewController
@@ -84,4 +82,4 @@ extension Snapshotting where Value: SwiftUI.View, Format == UIImage {
   }
 }
 #endif
-
+#endif
