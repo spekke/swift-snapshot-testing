@@ -206,9 +206,11 @@ public func verifySnapshot<Value, Format>(
 
       let tookSnapshot = XCTestExpectation(description: "Took snapshot")
       var optionalDiffable: Format?
-      snapshotting.snapshot(try value()).run { b in
-        optionalDiffable = b
-        tookSnapshot.fulfill()
+      try autoreleasepool {
+        snapshotting.snapshot(try value()).run { b in
+          optionalDiffable = b
+          tookSnapshot.fulfill()
+        }
       }
       let result = XCTWaiter.wait(for: [tookSnapshot], timeout: timeout)
       switch result {
